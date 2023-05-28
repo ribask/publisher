@@ -1,0 +1,2 @@
+sqs:
+  queueUrl: http://localhost:4566/000000000000/galaxies
