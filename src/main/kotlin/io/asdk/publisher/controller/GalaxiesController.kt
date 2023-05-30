@@ -1,9 +1,7 @@
 package io.asdk.publisher.controller
 
-import io.asdk.publisher.models.Galaxy
-import io.asdk.publisher.sqsService.GalaxiesService
-import io.asdk.publisher.sqsService.SqsService
-import org.slf4j.ILoggerFactory
+import io.asdk.publisher.model.Galaxy
+import io.asdk.publisher.service.GalaxiesService
 import org.slf4j.LoggerFactory
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Controller
@@ -16,7 +14,7 @@ class GalaxiesController(
     private val galaxiesService: GalaxiesService
 ) {
 
-    var log = LoggerFactory.getLogger(SqsService::class.java)!!
+    var log = LoggerFactory.getLogger(GalaxiesController::class.java)!!
 
     @PostMapping("/galaxy")
     @ResponseStatus(HttpStatus.ACCEPTED)

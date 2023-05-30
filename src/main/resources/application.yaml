@@ -1,2 +1,15 @@
 sqs:
+  uri: http://localhost:4566
   queueUrl: http://localhost:4566/000000000000/galaxies
+
+redis:
+  url:  127.0.0.1
+  port: 6379
+
+
+logging:
+  level:
+    org:
+      springframework:
+        data:
+          redis: DEBUG
