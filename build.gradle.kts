@@ -22,6 +22,7 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-configuration-processor")
 	implementation("org.springframework.boot:spring-boot-starter-web-services")
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
+	testImplementation("io.mockk:mockk:1.4.1")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	implementation("org.springframework.data:spring-data-redis:3.1.0")
 	implementation("com.amazonaws:aws-java-sdk-sqs:1.12.477")

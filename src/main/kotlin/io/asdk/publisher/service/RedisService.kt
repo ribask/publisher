@@ -14,14 +14,14 @@ class RedisService(
         return redisTemplate.opsForSet().members(galaxyKey(api)) as MutableSet<SqsObject<T>>
     }
 
-    fun<T> setObjectsToReprocess(sqsObject: SqsObject<T>) {
+    fun <T> setObjectsToReprocess(sqsObject: SqsObject<T>) {
         redisTemplate.opsForSet().add(galaxyKey(sqsObject.api), sqsObject)
     }
 
-    fun<T> removeReprocessedObject(sqsObject: SqsObject<T>) {
+    fun <T> removeReprocessedObject(sqsObject: SqsObject<T>) {
         redisTemplate.opsForSet().remove(galaxyKey(sqsObject.api), sqsObject)
     }
 
-    private fun galaxyKey(api: String?) = "galaxy:${api}"
+    private fun galaxyKey(api: String?) = "$api"
 
 }
