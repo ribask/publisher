@@ -16,5 +16,6 @@ class ObjectService(
         }
     }
 }
+
 private fun <T : ObjectWrapper> getType(obj: T) = obj.reference
 private fun <T> T.toSqsObject(api: String): SqsObject<T> = SqsObject(api, this)

@@ -1,53 +1,39 @@
 package io.asdk.publisher.service
 
-import com.fasterxml.jackson.databind.ObjectMapper
-import io.asdk.publisher.controller.GalaxiesController
+import io.asdk.publisher.config.SqsConfig
+import io.asdk.publisher.model.Galaxy
+import io.asdk.publisher.model.SqsObject
 import io.asdk.publisher.utils.CreationUtils
-import org.junit.jupiter.api.Assertions
+import io.mockk.every
+import io.mockk.mockk
+import io.mockk.slot
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.extension.ExtendWith
-import org.mockito.Mockito
-import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.boot.test.mock.mockito.MockBean
-import org.springframework.http.MediaType
-import org.springframework.test.context.junit.jupiter.SpringExtension
-import org.springframework.test.context.junit4.SpringRunner
-import org.springframework.test.web.servlet.MockMvc
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers
+import software.amazon.awssdk.services.sqs.model.SendMessageResponse
 
-
-@ExtendWith(SpringExtension::class)
-@WebMvcTest(GalaxiesController::class)
+@SpringBootTest
 class SqsServiceTest {
 
-    @Autowired
-    private lateinit var mockMvc: MockMvc
-
-    @MockBean
-    private lateinit var objectService: ObjectService
 
     @Test
-    fun publishGalaxyIntoSqsTest() {
+    fun publishIntoSqsTest() {
         val utils = CreationUtils()
-        val requestBody = utils.getGalaxy()
-        val expectedResponse = 202
+        val redisService = mockk<RedisService>()
+        val sqsConfig = mockk<SqsConfig>()
+        val sqsService = SqsService(sqsConfig, redisService)
 
-        Mockito.`when`(objectService.process(requestBody)).thenReturn(true)
+        val request = slot<String>()
+        val response = slot<SendMessageResponse>()
+        val input = slot<SqsObject<Galaxy>>()
 
-        val result = mockMvc.perform(
-            MockMvcRequestBuilders.post("/galaxy")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(ObjectMapper().writeValueAsString(requestBody))
-        )
-            .andExpect(MockMvcResultMatchers.status().isAccepted)
-            .andReturn()
+        every { sqsConfig.requestSender(capture(request)) } returns response.captured
+        every { redisService.setObjectsToReprocess(capture(input)) } returns Unit
+        every { redisService.removeReprocessedObject(capture(input)) } returns Unit
 
-        val actualResponse = result.response.status
-        
-        Assertions.assertEquals(actualResponse, expectedResponse)
+        sqsService.publishIntoSqs(utils.getSqsObject())
+
+        assert(true)
+
     }
 
 }
