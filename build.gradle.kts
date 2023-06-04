@@ -9,7 +9,7 @@ plugins {
 
 group = "io.asdk"
 version = "0.0.1-SNAPSHOT"
-java.sourceCompatibility = JavaVersion.VERSION_17
+java.sourceCompatibility = JavaVersion.VERSION_19
 
 repositories {
 	mavenCentral()
@@ -22,8 +22,10 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-configuration-processor")
 	implementation("org.springframework.boot:spring-boot-starter-web-services")
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
-	testImplementation("io.mockk:mockk:1.4.1")
+	testImplementation("io.mockk:mockk:1.12.0")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
+	testImplementation("org.junit.jupiter:junit-jupiter-api:5.9.3")
+	testImplementation("org.junit.jupiter:junit-jupiter-engine:5.9.3")
 	implementation("org.springframework.data:spring-data-redis:3.1.0")
 	implementation("com.amazonaws:aws-java-sdk-sqs:1.12.477")
 	implementation("software.amazon.awssdk:sqs:2.16.69")
@@ -34,7 +36,7 @@ dependencies {
 tasks.withType<KotlinCompile> {
 	kotlinOptions {
 		freeCompilerArgs = listOf("-Xjsr305=strict")
-		jvmTarget = "17"
+		jvmTarget = "19"
 	}
 }
 
