@@ -18,7 +18,7 @@ class GalaxiesController(
 
     @PostMapping("/galaxy")
     @ResponseStatus(HttpStatus.ACCEPTED)
-    fun getGalaxy(@RequestBody galaxy: Galaxy) {
+    fun postGalaxy(@RequestBody galaxy: Galaxy) {
         try {
             objectService.process(galaxy)
         } catch (e: Exception) {

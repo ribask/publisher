@@ -9,9 +9,10 @@ import org.springframework.stereotype.Service
 class ObjectService(
     private val sqsService: SqsService
 ) {
-    fun <T : ObjectWrapper> process(obj: T) {
+    fun <T : ObjectWrapper> process(obj: T): Boolean {
         obj.toSqsObject(getType(obj)).also {
             sqsService.publishIntoSqs(it)
+            return true
         }
     }
 }
