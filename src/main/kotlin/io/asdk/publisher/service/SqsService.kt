@@ -8,13 +8,13 @@ import org.springframework.stereotype.Service
 
 @Service
 class SqsService(
-        private val sqs: SqsConfig,
-        private val redisService: RedisService
+    private val sqs: SqsConfig,
+    private val redisService: RedisService
   ) {
 
   var log = LoggerFactory.getLogger(SqsService::class.java)!!
 
-  fun <T> publishIntoSqs(sqsObject: SqsObject<T>) {
+  fun <T> publishIntoSqs(sqsObject: SqsObject<T>): Boolean {
     val sqsObj = sqsObject.toJson()
     try {
       sqs.requestSender(sqsObj)
@@ -22,10 +22,12 @@ class SqsService(
           sqs.requestSender(obj.toJson())
           redisService.removeReprocessedObject(obj)
       }
+        return true
     } catch (e : Exception) {
       redisService.setObjectsToReprocess(sqsObject)
       log.error("An exception occurred when trying to send the message to SQS: $e!")
     }
+      return false
   }
 }
 

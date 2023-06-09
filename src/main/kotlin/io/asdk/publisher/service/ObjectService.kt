@@ -11,8 +11,7 @@ class ObjectService(
 ) {
     fun <T : ObjectWrapper> process(obj: T): Boolean {
         obj.toSqsObject(getType(obj)).also {
-            sqsService.publishIntoSqs(it)
-            return true
+            return sqsService.publishIntoSqs(it)
         }
     }
 }
