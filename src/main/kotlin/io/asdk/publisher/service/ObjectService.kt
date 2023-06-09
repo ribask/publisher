@@ -11,10 +11,10 @@ class ObjectService(
 ) {
     fun <T : ObjectWrapper> process(obj: T): Boolean {
         obj.toSqsObject(getType(obj)).also {
-            sqsService.publishIntoSqs(it)
-            return true
+            return sqsService.publishIntoSqs(it)
         }
     }
 }
+
 private fun <T : ObjectWrapper> getType(obj: T) = obj.reference
 private fun <T> T.toSqsObject(api: String): SqsObject<T> = SqsObject(api, this)
