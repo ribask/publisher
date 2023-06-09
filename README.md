@@ -8,7 +8,7 @@ described in the image below:
 
 # requirements
 
-To run the project locally, it's needed a redis and to a sqs connection. In order to make it simpler to run it locally,
+To run the project locally, it's needed both a redis and a sqs connection. In order to make it simpler to run it,
 it is possible to use the docker shell script "docker/start.sh" in order to both start the localstack and redis containers.
 
 # current test coverage
